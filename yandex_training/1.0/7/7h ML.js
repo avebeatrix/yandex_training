@@ -1,3 +1,4 @@
+/* H. Охрана */
 let getResult = data => {
 
 	let parse_ints = (line) => {
