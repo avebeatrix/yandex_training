@@ -26,8 +26,8 @@ let getResult = data => {
 		let [city1, time1, city2, time2] = parse_line(data[x]);
 		time1 = get_time_in_minutes(time1);
 		time2 = get_time_in_minutes(time2);
-		events.push([time1, OUT, city2, time2, x]);
-		events.push([time2, IN, city1, time1, x]);
+		events.push([time1, OUT, city1, time2, x]);
+		events.push([time2, IN, city2, time1, x]);
 		city_state[city1]--;
 		city_state[city2]++;
 	}
@@ -65,16 +65,14 @@ let getResult = data => {
 		let [time, arrive, bus_num, time_start, route_index] = event;		
 		if (arrive===OUT){			
 			if (bus_state[bus_num]===0){
-				result++;				
+				result++;
+				routes[route_index] = 1;
 			}else{
 				bus_state[bus_num]--;
-			}	
-			routes[route_index] = 1;								
+			}									
 		}else{	
-			if (routes[route_index]!==0){	
-				if (time_start<time){
-					bus_state[bus_num]++;	
-				}																
+			if (routes[route_index]!==0){			
+				bus_state[bus_num]++;										
 			}											
 		}		
 	}
