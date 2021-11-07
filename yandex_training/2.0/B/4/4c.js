@@ -1,12 +1,25 @@
-/* B. Выборы в США */
+/* C. Частотный анализ */
 let getResult = (data) => {	
 		
-	let voteMap = new Map();
-	data.forEach(str=>{
-		let [name, count] = str.split(' ');	
-		voteMap.set(name, (voteMap.get(name)??0)+parseInt(count));
+	let frequencyMap = new Map();
+	data.forEach(str=>{	
+		let words = str.split(' ').map(val=>val.trim());	
+		words.forEach(word=>{
+			frequencyMap.set(word, (frequencyMap.get(word)??0)+1);
+		})		
 	})			
-	return [...voteMap.entries()].sort().map((input)=>input.join(' ')).join('\n');
+	return [...frequencyMap.entries()].sort((a, b)=>{
+		if (a[1]==b[1]){
+			if (a[0]>b[0]){
+				return 1;
+			}else if (a[0]<b[0]){
+				return -1;
+			}
+			return 0;			
+		}else{
+			return b[1]-a[1];
+		}
+	}).map((input)=>input[0]).join('\n');
 
 }
 //console.log('start: ' + Date.now());
