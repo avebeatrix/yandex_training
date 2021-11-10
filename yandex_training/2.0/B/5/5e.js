@@ -13,12 +13,12 @@ let getResult = (data) => {
 
 	for (let i = 0; i < a_length; i++) {
 		for (let j = 0; j < b_length; j++) {
-			if (c_set.has(S-A[i]-B[j])){
-				for(let k=0;k<c_length;k++){
-					if (C[k]===S-A[i]-B[j]){
-						return i+' '+j+' '+k;
+			if (c_set.has(S - A[i] - B[j])) {
+				for (let k = 0; k < c_length; k++) {
+					if (C[k] === S - A[i] - B[j]) {
+						return i + ' ' + j + ' ' + k;
 					}
-				}				
+				}
 			}
 		}
 	}
