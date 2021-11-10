@@ -1,3 +1,5 @@
+/* C. Корень кубического уравнения */
+
 let getResult = (data) => {
 
     let parse_ints = (str) => str.split(' ').filter(val => val != '').map(val => parseInt(val.trim()));
