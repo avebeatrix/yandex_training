@@ -13,3 +13,7 @@ let gcd = (a, b) => {
         b %= a;
     }
 }
+
+let lcm = (a, b) => {
+	return a / gcd(a, b) * b;
+}

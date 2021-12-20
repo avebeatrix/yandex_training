@@ -58,58 +58,43 @@ let getResult = (data) => {
 	words = [...words];
 
 	words.sort((a, b) => {
-		let [a_char1, a_count1, a_char2, a_count2] = getPartOfWord(a);
-		let [b_char1, b_count1, b_char2, b_count2] = getPartOfWord(b);
+		let [a_char1, , a_char2] = getPartOfWord(a);
+		let [b_char1, , b_char2] = getPartOfWord(b);
 
-		if (a_char1 > b_char1) {
+		if (a_char1 + a_char2 > b_char1 + b_char2) {
 			return 1;
-		} else if (a_char1 < b_char1) {
+		} else if (a_char1 + a_char2 < b_char1 + b_char2) {
 			return -1;
 		}
-		else {
-			if (a_char2 > b_char2) {
-				return 1;
-			} else if (a_char2 < b_char2) {
-				return -1;
-			} else {
-				if (a_count1 === b_count1) {
-					return a_count2 - b_count2;
-				}
-				return a_count2 - b_count2;
-			}
-		}
+		return 0;
 	})
 
 	let current_word = words[0];
 
 	let getAreaSum = () => {
+		let sum = 0;
 		let i = 1;
-		while (true) {
-			if (area[i] === undefined) {
-				break;
-			}
+		while (area[i] !== undefined) {			
 			sum += area[i];
 			i++;
 		}
-		result += sum;
-		sum = 0;
-		area = [];
+		return sum;		
 	}
-
-	let sum = 0;
+	
 	let area = [];
 	words.forEach(word => {
 		let [char1, count1, char2, count2] = getPartOfWord(word);
 		let [cur_char1, , cur_char2,] = getPartOfWord(current_word);
 		if (char1 !== cur_char1 || char2 !== cur_char2) {
-			getAreaSum();
+			result += getAreaSum();
+			area = [];
 		}
 		for (let i = 1; i <= count1; i++) {
 			area[i] = Math.max(area[i] ?? 0, count2);
 		}
 		current_word = word;
 	})
-	getAreaSum();
+	result += getAreaSum();	
 
 	return result;
 }
