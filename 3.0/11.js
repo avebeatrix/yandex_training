@@ -1,5 +1,5 @@
 /** 11. Конвейер */
-const parse_floats = (line) => {
+const parseFloats = (line) => {
   return line
     .trim()
     .split(" ")
@@ -7,12 +7,12 @@ const parse_floats = (line) => {
     .map((input) => parseFloat(input));
 };
 
-let getResult = (data) => {
+const getResult = (data) => {
   const testCount = parseInt(data[0].trim());
   const result = [];
 
   for (let i = 0; i < testCount; i++) {
-    const [, ...containers] = parse_floats(data[i + 1]);
+    const [, ...containers] = parseFloats(data[i + 1]);
     const warehouseStack = [];
     const bStack = [];
     for (let j = 0; j < containers.length; j++) {
@@ -47,11 +47,20 @@ let getResult = (data) => {
   return result;
 };
 
-const fs = require("fs");
-let fileContent = fs.readFileSync("input.txt", "utf8");
+const readline = require("readline");
 
-const data = fileContent.toString().trim().split("\n");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
 
-const result = getResult(data);
+let data = [];
+rl.on("line", (line) => {
+  data.push(line.trim());
+});
 
-fs.writeFileSync("output.txt", result.join("\n"));
+rl.on("close", () => {
+  const result = getResult(data);
+  console.log(result.join("\n"));
+  rl.close();
+});
