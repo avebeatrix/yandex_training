@@ -1,26 +1,38 @@
-/*
+/* G. Черепахи */
 
-G. Черепахи
+const getResult = (data) => {
+  const length = parseInt(data[0].trim());
+  const validPositions = new Set();
 
-*/
+  for (let i = 1; i <= length; i++) {
+    const [a, b] = data[i]
+      .trim()
+      .split(" ")
+      .map((input) => parseInt(input));
 
-function getResult(data) {
-	let length = parseInt(data[0].trim());
-	let trueSet = new Set();
-	for (let i = 1; i <= length; i++) {
-		let [a, b] = data[i].trim().split(' ').map(input => parseInt(input));
-		if (a > -0 && b >= 0 && a + b == length - 1) {
-			trueSet.add(a + ' ' + b);
-		}
-	}
+    // Проверяем, что черепаха может говорить правду
+    if (a >= 0 && b >= 0 && a + b === length - 1) {
+      validPositions.add(a);
+    }
+  }
 
-	return trueSet.size;
-}
+  return validPositions.size;
+};
 
-const fs = require('fs');
-let fileContent = fs.readFileSync("input.txt", "utf8");
-let data = fileContent.toString().split("\n");
+const readline = require("readline");
 
-const result = getResult(data);
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
 
-fs.writeFileSync("output.txt", result.toString());
+let data = [];
+rl.on("line", (line) => {
+  data.push(line.trim());
+});
+
+rl.on("close", () => {
+  const result = getResult(data);
+  console.log(result.toString());
+  rl.close();
+});

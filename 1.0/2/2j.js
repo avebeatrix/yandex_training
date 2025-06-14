@@ -1,44 +1,49 @@
-/*
+/* J. Треугольник Максима */
 
-J. Треугольник Максима
+const getInterval = (data) => {
+  let left = 30.0;
+  let right = 4000.0;
+  let prev = parseFloat(data[1].trim());
 
-*/
+  for (let i = 2; i < data.length; i++) {
+    const [nextStr, distance] = data[i].trim().split(" ");
+    const next = parseFloat(nextStr);
+    const mid = (prev + next) / 2.0;
 
-let getInterval = (data) => {
-	let x = [30, 4000];
-	let length = parseInt(data[0].trim());
-	let current = parseFloat(data[1].trim());
-	let next, distance;
-	let diff = 0;
-	let [newLeft, newRight] = x;
-	for (let i = 2; i <= length; i++) {
-		[next, distance] = data[i].trim().toString().split(" ");
-		next = parseFloat(next);
-		diff = Math.abs((next - current) / 2);
-		if (distance == 'further') {
-			if (next - current > 0) {
-				newRight = current + diff;
-			} else {
-				newLeft = current - diff;
-			}
-		} else {
-			if (next - current > 0) {
-				newLeft = next - diff;
-			} else {
-				newRight = next + diff;
-			}
-		}
-		if (newRight < x[1]) x[1] = newRight;
-		if (newLeft > x[0]) x[0] = newLeft;
-		current = next;
-	}
-	return x;
-}
+    if (distance === "closer") {
+      if (next > prev) {
+        left = Math.max(left, mid);
+      } else if (next < prev) {
+        right = Math.min(right, mid);
+      }
+    } else if (distance === "further") {
+      if (next > prev) {
+        right = Math.min(right, mid);
+      } else if (next < prev) {
+        left = Math.max(left, mid);
+      }
+    }
 
-const fs = require('fs');
-let fileContent = fs.readFileSync("input.txt", "utf8");
-const data = fileContent.toString().split("\n");
+    prev = next;
+  }
 
-const result = getInterval(data);
+  return [left, right];
+};
 
-fs.writeFileSync("output.txt", result.join(' '));
+const readline = require("readline");
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  data.push(line.trim());
+});
+
+rl.on("close", () => {
+  const result = getInterval(data);
+  console.log(result[0].toFixed(6) + " " + result[1].toFixed(6));
+  rl.close();
+});

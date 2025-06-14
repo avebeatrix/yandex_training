@@ -1,19 +1,32 @@
-/*
+/* D. Количество слов в тексте */
 
-D. Количество слов в тексте
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
 
-*/
+let input = [];
+rl.on("line", (line) => {
+  input.push(line);
+});
 
-const fs = require('fs');
-let fileContent = fs.readFileSync("input.txt", "utf8");
-let words = fileContent.toString().replace(/\r/gi, ' ').replace(/\n/gi, ' ').split(" ");
-let wordsSet = new Set();
-for (let i = 0; i < words.length; i++) {
-	if (words[i].length) {
-		wordsSet.add(words[i]);
-	}
-}
+rl.on("close", () => {
+  const fileContent = input.join("\n");
 
-const result = wordsSet.size;
+  const words = fileContent
+    .replace(/\r/gi, " ")
+    .replace(/\n/gi, " ")
+    .split(" ");
 
-fs.writeFileSync("output.txt", result.toString());
+  const wordsSet = new Set();
+  for (let i = 0; i < words.length; i++) {
+    if (words[i].length) {
+      wordsSet.add(words[i]);
+    }
+  }
+
+  const result = wordsSet.size;
+
+  console.log(result);
+});

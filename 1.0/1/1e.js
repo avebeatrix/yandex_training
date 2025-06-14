@@ -18,7 +18,9 @@ const findSolutions = (k1, m, k2, p2, n2) => {
   let ent = -1;
   let floor = -1;
   let goodFlag = false;
-  for (let i = 1; i <= 1000000; i++) {
+
+  const maxFlats = Math.max(k1, k2);
+  for (let i = 1; i <= maxFlats; i++) {
     const [nent, nfloor] = check(k1, m, k2, p2, n2, i);
     if (nent != -1) {
       goodFlag = true;
@@ -39,15 +41,16 @@ const findSolutions = (k1, m, k2, p2, n2) => {
   }
 };
 
-const fs = require("fs");
-let fileContent = fs.readFileSync("input.txt", "utf8");
+const readline = require("readline");
 
-const [k1, m, k2, p2, n2] = fileContent
-  .toString()
-  .split(" ")
-  .map((input) => {
-    return parseInt(input);
-  });
-const result = findSolutions(k1, m, k2, p2, n2);
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
 
-fs.writeFileSync("output.txt", result);
+rl.on("line", (line) => {
+  const [k1, m, k2, p2, n2] = line.split(" ").map(Number);
+  const result = findSolutions(k1, m, k2, p2, n2);
+  console.log(result);
+  rl.close();
+});
